@@ -1,0 +1,8 @@
+
+
+
+<p>Hello!!!</p>
+
+<% @posts.each do |post| %>
+    <p><a href="/posts/<%= post.id %>"> <%=post.name %></a></p>
+<% end %>

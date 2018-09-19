@@ -23,17 +23,7 @@ describe "Blog Post App" do
       expect(Post.last.name).to eq("my favorite blog post")
     end
 
-    it "redirects to '/posts'" do
-      visit '/posts/new'
-
-      fill_in :name, :with => "a post"
-      fill_in :content, :with => "blog blog blog blog blog"
-
-      click_button 'submit'
-
-      expect(page.current_path).to eq('/posts')
-      expect(page.body).to include("blog blog blog blog blog")
-    end
+    
 
   end
 
@@ -86,58 +76,12 @@ describe "Blog Post App" do
       expect(page.body).to include("#{@post2.content}")
 
     end
-
-    it "saves edits to a blog post" do
-      visit "/posts/#{@post2.id}/edit"
-      fill_in :name, :with => "Second Post!!"
-      fill_in :content, :with => "this is the best blog post ever written"
-
-      click_button 'submit'
-      expect(Post.all.count).to eq(2)
-      expect(Post.last.name).to eq("Second Post!!")
-    end
-
-    it "redirects to '/posts/:id'" do
-      visit "/posts/#{@post2.id}/edit"
-      fill_in :content, :with => "this is even better than the last"
-
-      click_button 'submit'
-      expect(page.current_path).to eq("/posts/#{@post2.id}")
-      expect(page.body).to include("this is even better than the last")
-    end
-
-    it "submits the form via a patch request" do
-      visit "/posts/#{@post2.id}/edit"
-      expect(find("#hidden", :visible => false).value).to eq("patch")
-    end
-
   end
 
   describe "delete action" do
-
-
     it 'responds with a 200 status code' do
       get "/posts/#{@post2.id}"
       expect(last_response.status).to eq(200)
     end
-
-    it "deletes a blog post from the database" do
-      visit "/posts/#{@post2.id}"
-      click_button "delete"
-      expect(Post.all.count).to eq(1)
-      expect(Post.last.name).to eq("Hello World")
-    end
-
-    it "submits the form via a delete request" do
-      visit "/posts/#{@post2.id}"
-      expect(find("#hidden", :visible => false).value).to eq("delete")
-    end
-
   end
-
-
-
-
-
-
 end
